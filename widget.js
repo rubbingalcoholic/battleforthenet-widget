@@ -97,8 +97,10 @@ var _bftn_animations = {
 
 		// what to do when the animation starts
 		start: function() {
-			var css = '#_bftn_iframe { position: fixed; left: 0px; top: 0px; \
-				width: 280px; box-sizing: border-box; height: 100%; z-index: 20000; }'
+			var css = '#_bftn_iframe_container { position: fixed; left: 0px; \
+				top: 0px; z-index: 20000; width: 100%; height: 100%; \
+				-webkit-overflow-scrolling: touch; } \
+				#_bftn_iframe { width: 100%; height: 100%; }';
 
 			_bftn_util.injectCSS('_bftn_iframe_css', css);
 
@@ -154,8 +156,7 @@ var _bftn_animations = {
 			// otherwise it will be fixed to the top / bottom
 			var minFloatWidth = this.options.width-1;
 
-			var css = 'body { -webkit-overflow-scrolling:touch } \
-				#_bftn_iframe { \
+			var css = '#_bftn_iframe { \
 					position: fixed; '+pos+' \
 					width: '+this.options.width+'px; \
 					height: '+this.options.height+'px; \
@@ -209,7 +210,12 @@ var _bftn_util = {
 		iframe.frameBorder = 0;
 		iframe.allowTransparency = true; 
 		iframe.style.display = 'none';
-		document.body.appendChild(iframe);
+
+		var container = document.createElement('div');
+		container.id = '_bftn_iframe_container';
+
+		container.appendChild(iframe);
+		document.body.appendChild(container);
 		return iframe;
 	},
 
